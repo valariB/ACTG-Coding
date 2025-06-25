@@ -101,15 +101,21 @@
 <body>
 
   <div id="intro" class="intro">
-    <img src="/mnt/data/Brightwild_Workable_1200x1200.png" alt="Brightwild Logo">
+    <img src="Brightwild_Workable_1200x1200.png" alt="Brightwild Logo">
     <div class="quote">Dominate the day Accounting Team</div>
+    <div class="menu" id="menuBar">
+      <button onclick="showSection('wex', this)">Wex</button>
+      <button onclick="showSection('dialpad', this)">Dialpad</button>
+    </div>
+</div>
     <div class="menu" id="menuBar">
       <button onclick="showSection('wex', this)">Wex</button>
       <button onclick="showSection('dialpad', this)">Dialpad</button>
     </div>
   </div>
 
-  <div id="wex" class="section">
+  <button class="calc" onclick="returnHome()" style="margin-bottom: 20px;">Return to Home</button>
+$1
     <h2>Wex - Gas Allocation</h2>
     <label for="daterange">Date Range:</label>
     <input type="text" id="daterange" placeholder="MM/DD/YYYY - MM/DD/YYYY">
@@ -139,7 +145,8 @@
     <p><strong>Entity:</strong> MC</p>
   </div>
 
-  <div id="dialpad" class="section">
+  <button class="calc" onclick="returnHome()" style="margin-bottom: 20px;">Return to Home</button>
+$1
     <h2>Dialpad Vendor Split</h2>
     <label for="dialpad-total">Total Invoice Amount:</label>
     <input type="number" id="dialpad-total" value="2858.46" step="0.01">
@@ -232,7 +239,11 @@
           <tbody>${rows}</tbody>
         </table>`;
     }
-  </script>
+  function returnHome() {
+  document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+  document.getElementById('intro').style.display = 'flex';
+}
+</script>
 
 </body>
 </html>
