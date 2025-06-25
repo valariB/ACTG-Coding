@@ -107,64 +107,30 @@
       <button onclick="showSection('wex', this)">Wex</button>
       <button onclick="showSection('dialpad', this)">Dialpad</button>
     </div>
-</div>
-    <div class="menu" id="menuBar">
-      <button onclick="showSection('wex', this)">Wex</button>
-      <button onclick="showSection('dialpad', this)">Dialpad</button>
-    </div>
   </div>
 
   <div id="wex" class="section">
-<button class="calc" onclick="returnHome()" style="margin-bottom: 20px;">Return to Home</button>
-<h2>Wex - Gas Allocation</h2>
-<label for="daterange">Date Range:</label>
-<input type="text" id="daterange" placeholder="MM/DD/YYYY - MM/DD/YYYY">
-<label for="gasBeachside">Gas - Beachside:</label>
-<input type="number" id="gasBeachside" value="1303.91">
-<label for="gasHK">Gas - HK:</label>
-<input type="number" id="gasHK" value="2073.58">
-<label for="gasMaint">Gas - Maint:</label>
-<input type="number" id="gasMaint" value="798.52">
-<button class="calc" onclick="calculateWex()">Calculate Wex Allocation</button>
-<div id="wex-result"></div>
-<h3 style="margin-top:30px;">Coding Information</h3>
-<table>
-  <thead>
-    <tr><th>GL</th><th>Department</th><th>Class</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>7261--Gas & Mileage</td><td>GT6 Property Services</td><td>BKW ALL</td></tr>
-    <tr><td>7261--Gas & Mileage</td><td>Housekeeping</td><td>Unassigned Listing</td></tr>
-    <tr><td>7261--Gas & Mileage</td><td>Maintenance - Facility Services</td><td>Unassigned Listing - Keys</td></tr>
-  </tbody>
-</table>
-<p><strong>Spend Owner:</strong> Brian Gladwell</p>
-<p><strong>Entity:</strong> MC</p>
-</div>
-
-    <h3 style="margin-top:30px;">Coding Information</h3>
-    <table>
-      <thead>
-        <tr><th>GL</th><th>Department</th><th>Class</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>7261--Gas & Mileage</td><td>GT6 Property Services</td><td>BKW ALL</td></tr>
-        <tr><td>7261--Gas & Mileage</td><td>Housekeeping</td><td>Unassigned Listing</td></tr>
-        <tr><td>7261--Gas & Mileage</td><td>Maintenance - Facility Services</td><td>Unassigned Listing - Keys</td></tr>
-      </tbody>
-    </table>
-    <p><strong>Spend Owner:</strong> Brian Gladwell</p>
-    <p><strong>Entity:</strong> MC</p>
+    <button class="calc" onclick="returnHome()" style="margin-bottom: 20px;">Return to Home</button>
+    <h2>Wex - Gas Allocation</h2>
+    <label for="daterange">Date Range:</label>
+    <input type="text" id="daterange" placeholder="MM/DD/YYYY - MM/DD/YYYY">
+    <label for="gasBeachside">Gas - Beachside:</label>
+    <input type="number" id="gasBeachside" value="1303.91">
+    <label for="gasHK">Gas - HK:</label>
+    <input type="number" id="gasHK" value="2073.58">
+    <label for="gasMaint">Gas - Maint:</label>
+    <input type="number" id="gasMaint" value="798.52">
+    <button class="calc" onclick="calculateWex()">Calculate Wex Allocation</button>
+    <div id="wex-result"></div>
   </div>
 
   <div id="dialpad" class="section">
-<button class="calc" onclick="returnHome()" style="margin-bottom: 20px;">Return to Home</button>
-<h2>Dialpad Vendor Split</h2>
-<label for="dialpad-total">Total Invoice Amount:</label>
-<input type="number" id="dialpad-total" value="2858.46" step="0.01">
-<button class="calc" onclick="calculateDialpad()">Calculate Allocation</button>
-<div id="dialpad-result"></div>
-</div>
+    <button class="calc" onclick="returnHome()" style="margin-bottom: 20px;">Return to Home</button>
+    <h2>Dialpad Vendor Split</h2>
+    <label for="dialpad-total">Total Invoice Amount:</label>
+    <input type="number" id="dialpad-total" value="2858.46" step="0.01">
+    <button class="calc" onclick="calculateDialpad()">Calculate Allocation</button>
+    <div id="dialpad-result"></div>
   </div>
 
   <script>
@@ -174,6 +140,11 @@
       document.getElementById(id).style.display = 'block';
       document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+    }
+
+    function returnHome() {
+      document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+      document.getElementById('intro').style.display = 'flex';
     }
 
     function formatNumber(num) {
@@ -207,6 +178,17 @@
             <tr><td>Gas</td><td>$${formatNumber(gasB)}</td><td>$${formatNumber(gasHK)}</td><td>$${formatNumber(gasM)}</td><td>$${formatNumber(gasB + gasHK + gasM)}</td></tr>
             <tr><td>Monthly Charge</td><td>$${formatNumber(monthlyB)}</td><td>$${formatNumber(monthlyHK)}</td><td>$${formatNumber(monthlyM)}</td><td>$${formatNumber(monthlyB + monthlyHK + monthlyM)}</td></tr>
             <tr style="font-weight:bold;"><td>Grand Total</td><td>$${formatNumber(totalB)}</td><td>$${formatNumber(totalHK)}</td><td>$${formatNumber(totalM)}</td><td>$${formatNumber(totalBill)}</td></tr>
+          </tbody>
+        </table>
+        <h3 style="margin-top:30px;">Coding Information</h3>
+        <table>
+          <thead>
+            <tr><th>GL</th><th>Department</th><th>Class</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>7261--Gas & Mileage</td><td>GT6 Property Services</td><td>BKW ALL</td></tr>
+            <tr><td>7261--Gas & Mileage</td><td>Housekeeping</td><td>Unassigned Listing</td></tr>
+            <tr><td>7261--Gas & Mileage</td><td>Maintenance - Facility Services</td><td>Unassigned Listing - Keys</td></tr>
           </tbody>
         </table>
       `;
@@ -252,11 +234,7 @@
           <tbody>${rows}</tbody>
         </table>`;
     }
-  function returnHome() {
-  document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
-  document.getElementById('intro').style.display = 'flex';
-}
-</script>
+  </script>
 
 </body>
 </html>
