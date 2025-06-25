@@ -130,6 +130,10 @@
       event.target.classList.add('active');
     }
 
+    function formatNumber(num) {
+      return num.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
     function calculateWex() {
       const range = document.getElementById("daterange").value;
       const gasB = parseFloat(document.getElementById("gasBeachside").value) || 0;
@@ -146,17 +150,19 @@
       const totalBill = totalB + totalHK + totalM;
 
       document.getElementById("wex-result").innerHTML = `
+        <p><strong>Spend Owner:</strong> Brian Gladwell</p>
+        <p><strong>Entity:</strong> MC</p>
+        <p><strong>Bill Description:</strong> Account #0460-00-186 (${range})</p>
         <table>
           <thead>
             <tr><th>Charge Type</th><th>Beachside</th><th>HK</th><th>Maint</th><th>Total</th></tr>
           </thead>
           <tbody>
-            <tr><td>Gas</td><td>$${gasB.toFixed(2)}</td><td>$${gasHK.toFixed(2)}</td><td>$${gasM.toFixed(2)}</td><td>$${(gasB + gasHK + gasM).toFixed(2)}</td></tr>
-            <tr><td>Monthly Charge</td><td>$${monthlyB.toFixed(2)}</td><td>$${monthlyHK.toFixed(2)}</td><td>$${monthlyM.toFixed(2)}</td><td>$${(monthlyB + monthlyHK + monthlyM).toFixed(2)}</td></tr>
-            <tr style="font-weight:bold;"><td>Grand Total</td><td>$${totalB.toFixed(2)}</td><td>$${totalHK.toFixed(2)}</td><td>$${totalM.toFixed(2)}</td><td>$${totalBill.toFixed(2)}</td></tr>
+            <tr><td>Gas</td><td>$${formatNumber(gasB)}</td><td>$${formatNumber(gasHK)}</td><td>$${formatNumber(gasM)}</td><td>$${formatNumber(gasB + gasHK + gasM)}</td></tr>
+            <tr><td>Monthly Charge</td><td>$${formatNumber(monthlyB)}</td><td>$${formatNumber(monthlyHK)}</td><td>$${formatNumber(monthlyM)}</td><td>$${formatNumber(monthlyB + monthlyHK + monthlyM)}</td></tr>
+            <tr style="font-weight:bold;"><td>Grand Total</td><td>$${formatNumber(totalB)}</td><td>$${formatNumber(totalHK)}</td><td>$${formatNumber(totalM)}</td><td>$${formatNumber(totalBill)}</td></tr>
           </tbody>
         </table>
-        <p><strong>Bill Description:</strong> Account #0460-00-186 (${range})</p>
       `;
     }
 
@@ -174,11 +180,11 @@
       ];
 
       const rows = data.map(item => {
-        const amount = (total * item.pct / 100).toFixed(2);
+        const amount = (total * item.pct / 100);
         return `<tr>
           <td>${item.user}</td>
           <td>${item.pct.toFixed(2)}%</td>
-          <td>$${amount}</td>
+          <td>$${formatNumber(amount)}</td>
           <td>${item.coding}</td>
           <td>${item.dept}</td>
           <td>${item.class}</td>
