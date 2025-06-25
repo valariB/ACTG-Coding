@@ -13,11 +13,12 @@
 
     .menu {
       margin-bottom: 20px;
-      display: none;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
     }
 
     .menu button {
-      margin: 0 10px;
       padding: 10px 16px;
       background-color: #007acc;
       color: white;
@@ -38,19 +39,22 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       display: none;
       text-align: left;
+      max-width: 1000px;
+      margin: 0 auto;
     }
 
     .intro {
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
       margin-top: 50px;
     }
 
     .intro img {
-      width: 100px;
-      height: 100px;
-      margin-right: 20px;
+      width: 120px;
+      height: 120px;
+      margin-bottom: 20px;
     }
 
     .quote {
@@ -97,13 +101,12 @@
 <body>
 
   <div id="intro" class="intro">
-    <img src="Brightwild_Workable_1200x1200.png" alt="Brightwild Logo">
+    <img src="/mnt/data/Brightwild_Workable_1200x1200.png" alt="Brightwild Logo">
     <div class="quote">Dominate the day Accounting Team</div>
-  </div>
-
-  <div class="menu" id="menuBar">
-    <button class="active" onclick="showSection('wex')">Wex</button>
-    <button onclick="showSection('dialpad')">Dialpad</button>
+    <div class="menu" id="menuBar">
+      <button onclick="showSection('wex', this)">Wex</button>
+      <button onclick="showSection('dialpad', this)">Dialpad</button>
+    </div>
   </div>
 
   <div id="wex" class="section">
@@ -145,13 +148,12 @@
   </div>
 
   <script>
-    function showSection(id) {
+    function showSection(id, btn) {
       document.getElementById('intro').style.display = 'none';
-      document.getElementById('menuBar').style.display = 'block';
       document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
       document.getElementById(id).style.display = 'block';
-      document.querySelectorAll('.menu button').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
+      document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
     }
 
     function formatNumber(num) {
@@ -176,7 +178,7 @@
       document.getElementById("wex-result").innerHTML = `
         <p><strong>Spend Owner:</strong> Brian Gladwell</p>
         <p><strong>Entity:</strong> MC</p>
-        <p><strong>Bill Description:</strong> Account #0460-00-186 (${range})</p>
+        <p><strong>Bill Description:</strong> Account #0460-00-186136-8 : HSK, Beachside & Maintenance Gas & Monthly Card Charge - ${range}</p>
         <table>
           <thead>
             <tr><th>Charge Type</th><th>Beachside</th><th>HK</th><th>Maint</th><th>Total</th></tr>
