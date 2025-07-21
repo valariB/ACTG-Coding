@@ -107,7 +107,7 @@
     <div class="quote">Dominate the day Accounting Team</div>
     <div class="menu" id="menuBar">
       <button onclick="showSection('wex', this)">Wex</button>
-      <button onclick="window.open('https://valarib.github.io/DIALPAD/DialPad.html', '_blank')">Dialpad</button>
+      <button onclick="loadDialpad()">Dialpad</button>
       <button onclick="showSection('bkw', this)">BKW Utility</button>
       <button onclick="window.open('https://valarib.github.io/ACTG-GL-Reference-Tool/ACTG-GL.HTML', '_blank')">
         GL Reference Tool
@@ -128,6 +128,11 @@
     <input type="number" id="gasMaint" value="798.52">
     <button class="calc" onclick="calculateWex()">Calculate Wex Allocation</button>
     <div id="wex-result"></div>
+  </div>
+
+  <div id="dialpad-embed" class="section">
+    <button class="calc" onclick="returnHome()" style="margin-bottom: 20px;">Return to Home</button>
+    <iframe src="https://valarib.github.io/DIALPAD/DialPad.html" style="width:100%; height:800px; border:none;"></iframe>
   </div>
 
   <div id="bkw" class="section">
@@ -175,26 +180,10 @@
       return num.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
-    function calculateWex() {
-      const beachside = parseFloat(document.getElementById('gasBeachside').value) || 0;
-      const hk = parseFloat(document.getElementById('gasHK').value) || 0;
-      const maint = parseFloat(document.getElementById('gasMaint').value) || 0;
-      const total = beachside + hk + maint;
-
-      const resultHTML = `
-        <h3>Wex Allocation</h3>
-        <table>
-          <thead><tr><th>Category</th><th>Amount</th><th>Percentage</th></tr></thead>
-          <tbody>
-            <tr><td>Beachside</td><td>$${formatNumber(beachside)}</td><td>${formatNumber(beachside/total*100)}%</td></tr>
-            <tr><td>HK</td><td>$${formatNumber(hk)}</td><td>${formatNumber(hk/total*100)}%</td></tr>
-            <tr><td>Maint</td><td>$${formatNumber(maint)}</td><td>${formatNumber(maint/total*100)}%</td></tr>
-            <tr><td><strong>Total</strong></td><td colspan="2">$${formatNumber(total)}</td></tr>
-          </tbody>
-        </table>
-      `;
-
-      document.getElementById('wex-result').innerHTML = resultHTML;
+    function loadDialpad() {
+      document.getElementById('intro').style.display = 'none';
+      document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+      document.getElementById('dialpad-embed').style.display = 'block';
     }
 
     function calculateBKW() {
