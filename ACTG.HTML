@@ -227,46 +227,68 @@
       `;
     }
 
-    function calculateDialpad() {
-      const total = parseFloat(document.getElementById("dialpad-total").value);
-      const data = [
-        { user: "Accounting", pct: 1.62, coding: "7210", dept: "Corp Ops - Finance & Accounting", class: "Unassigned Listing" },
-        { user: "Gems", pct: 58.52, coding: "7210", dept: "Guest Services - GEMs", class: "Unassigned Listing" },
-        { user: "HR", pct: 3.25, coding: "7210", dept: "Corp Ops - Legal & Risk", class: "Unassigned Listing" },
-        { user: "OPS", pct: 17.79, coding: "7210", dept: "Corp Ops - General", class: "Unassigned Listing" },
-        { user: "OSM", pct: 3.25, coding: "7210", dept: "Owner Success", class: "Unassigned Listing" },
-        { user: "Risk", pct: 1.63, coding: "7210", dept: "Corp Ops - Legal & Risk", class: "Unassigned Listing" },
-        { user: "Sales", pct: 1.63, coding: "7210", dept: "Sales & Marketing", class: "Unassigned Listing" },
-        { user: "SH5", pct: 12.31, coding: "1242", dept: "Office & Admin", class: "BKW ALL" }
-      ];
+    unction calculateDialpad() {
+  const total = parseFloat(document.getElementById("dialpad-total").value);
+  const data = [
+    { user: "Accounting", pct: 1.62, coding: "7210", dept: "Corp Ops - Finance & Accounting", class: "Unassigned Listing" },
+    { user: "Gems", pct: 58.52, coding: "7210", dept: "Guest Services - GEMs", class: "Unassigned Listing" },
+    { user: "HR", pct: 3.25, coding: "7210", dept: "Corp Ops - Legal & Risk", class: "Unassigned Listing" },
+    { user: "OPS", pct: 17.79, coding: "7210", dept: "Corp Ops - General", class: "Unassigned Listing" },
+    { user: "OSM", pct: 3.25, coding: "7210", dept: "Owner Success", class: "Unassigned Listing" },
+    { user: "Risk", pct: 1.63, coding: "7210", dept: "Corp Ops - Legal & Risk", class: "Unassigned Listing" },
+    { user: "Sales", pct: 1.63, coding: "7210", dept: "Sales & Marketing", class: "Unassigned Listing" },
+    { user: "SH5", pct: 12.31, coding: "1242", dept: "Office & Admin", class: "BKW ALL" }
+  ];
 
-      const rows = data.map(item => {
-        const amount = (total * item.pct / 100);
-        return `<tr>
-          <td>${item.user}</td>
-          <td>${item.pct.toFixed(2)}%</td>
-          <td>$${formatNumber(amount)}</td>
-          <td>${item.coding}</td>
-          <td>${item.dept}</td>
-          <td>${item.class}</td>
-        </tr>`;
-      }).join("");
+  let deptTotals = {};
 
-      document.getElementById("dialpad-result").innerHTML = `
-        <table>
-          <thead>
-            <tr>
-              <th>User</th>
-              <th>Percentage</th>
-              <th>Amount</th>
-              <th>Coding</th>
-              <th>Department</th>
-              <th>Class</th>
-            </tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>`;
-    }
+  const rows = data.map(item => {
+    const amount = (total * item.pct / 100);
+    
+    // Group by department
+    if (!deptTotals[item.dept]) deptTotals[item.dept] = 0;
+    deptTotals[item.dept] += amount;
+
+    return `<tr>
+      <td>${item.user}</td>
+      <td>${item.pct.toFixed(2)}%</td>
+      <td>$${formatNumber(amount)}</td>
+      <td>${item.coding}</td>
+      <td>${item.dept}</td>
+      <td>${item.class}</td>
+    </tr>`;
+  }).join("");
+
+  const deptSummary = Object.entries(deptTotals).map(([dept, amt]) => `
+    <tr>
+      <td>${dept}</td>
+      <td>$${formatNumber(amt)}</td>
+    </tr>
+  `).join("");
+
+  document.getElementById("dialpad-result").innerHTML = `
+    <h3>Detailed Allocation</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Percentage</th>
+          <th>Amount</th>
+          <th>Coding</th>
+          <th>Department</th>
+          <th>Class</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+
+    <h3 style="margin-top:30px;">Summary by Department</h3>
+    <table>
+      <thead><tr><th>Department</th><th>Total Amount</th></tr></thead>
+      <tbody>${deptSummary}</tbody>
+    </table>
+  `;
+}
 
     function calculateBKW() {
       const items = [
