@@ -107,7 +107,7 @@
     <div class="quote">Dominate the day Accounting Team</div>
     <div class="menu" id="menuBar">
       <button onclick="showSection('wex', this)">Wex</button>
-      <button onclick="showSection('dialpad', this)">Dialpad</button>
+      <button onclick="window.open('https://valarib.github.io/DIALPAD/DialPad.html', '_blank')">Dialpad</button>
       <button onclick="showSection('bkw', this)">BKW Utility</button>
       <button onclick="window.open('https://valarib.github.io/ACTG-GL-Reference-Tool/ACTG-GL.HTML', '_blank')">
         GL Reference Tool
@@ -128,15 +128,6 @@
     <input type="number" id="gasMaint" value="798.52">
     <button class="calc" onclick="calculateWex()">Calculate Wex Allocation</button>
     <div id="wex-result"></div>
-  </div>
-
-  <div id="dialpad" class="section">
-    <button class="calc" onclick="returnHome()" style="margin-bottom: 20px;">Return to Home</button>
-    <h2>Dialpad Vendor Split</h2>
-    <label for="dialpad-total">Total Invoice Amount:</label>
-    <input type="number" id="dialpad-total" value="2985.01" step="0.01">
-    <button class="calc" onclick="calculateDialpad()">Calculate Allocation</button>
-    <div id="dialpad-result"></div>
   </div>
 
   <div id="bkw" class="section">
@@ -184,92 +175,26 @@
       return num.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
-    function calculateDialpad() {
-      const total = parseFloat(document.getElementById("dialpad-total").value);
-      const data = [
-        { user: "Accounting", pct: 1.62, coding: "7210", dept: "Corp Ops - Finance & Accounting", class: "Unassigned Listing" },
-        { user: "Gems", pct: 58.52, coding: "7210", dept: "Guest Services - GEMs", class: "Unassigned Listing" },
-        { user: "HR", pct: 3.25, coding: "7210", dept: "Corp Ops - Legal & Risk", class: "Unassigned Listing" },
-        { user: "OPS", pct: 17.79, coding: "7210", dept: "Corp Ops - General", class: "Unassigned Listing" },
-        { user: "OSM", pct: 3.25, coding: "7210", dept: "Owner Success", class: "Unassigned Listing" },
-        { user: "Risk", pct: 1.63, coding: "7210", dept: "Corp Ops - Legal & Risk", class: "Unassigned Listing" },
-        { user: "Sales", pct: 1.63, coding: "7210", dept: "Sales & Marketing", class: "Unassigned Listing" },
-        { user: "SH5", pct: 12.31, coding: "1242", dept: "Office & Admin", class: "BKW ALL" }
-      ];
+    function calculateWex() {
+      const beachside = parseFloat(document.getElementById('gasBeachside').value) || 0;
+      const hk = parseFloat(document.getElementById('gasHK').value) || 0;
+      const maint = parseFloat(document.getElementById('gasMaint').value) || 0;
+      const total = beachside + hk + maint;
 
-      const rows = [];
-      const pivot = {};
-      let grandTotal = 0;
-
-      data.forEach(item => {
-        const amount = (total * item.pct / 100);
-        grandTotal += amount;
-        const key = `${item.coding}||${item.dept}||${item.class}`;
-
-        if (!pivot[key]) {
-          pivot[key] = 0;
-        }
-        pivot[key] += amount;
-
-        rows.push(`<tr>
-          <td>${item.user}</td>
-          <td>${item.pct.toFixed(2)}%</td>
-          <td>$${formatNumber(amount)}</td>
-          <td>${item.coding}</td>
-          <td>${item.dept}</td>
-          <td>${item.class}</td>
-        </tr>`);
-      });
-
-      const pivotRows = Object.entries(pivot).map(([key, value]) => {
-        const [coding, dept, className] = key.split("||");
-        return `<tr>
-          <td>${coding}</td>
-          <td>${dept}</td>
-          <td>${className}</td>
-          <td style="text-align:right;">$${formatNumber(value)}</td>
-        </tr>`;
-      }).join("");
-
-      const pivotTable = `
-        <div style="float: right; width: 480px; margin-top: -20px;">
-          <h3>Summary by Coding / Dept / Class</h3>
-          <table>
-            <thead>
-              <tr>
-                <th style="width: 90px;">Coding</th>
-                <th>Department</th>
-                <th>Class</th>
-                <th style="text-align:right;">Sum of Amount</th>
-              </tr>
-            </thead>
-            <tbody>${pivotRows}</tbody>
-            <tfoot>
-              <tr>
-                <td colspan="3" style="font-weight: bold;">Grand Total</td>
-                <td style="text-align:right; font-weight:bold;">$${formatNumber(grandTotal)}</td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>`;
-
-      const detailedTable = `
-        <h3 style="clear:both;">Detailed Allocation</h3>
+      const resultHTML = `
+        <h3>Wex Allocation</h3>
         <table>
-          <thead>
-            <tr>
-              <th>User</th>
-              <th>Percentage</th>
-              <th>Amount</th>
-              <th>Coding</th>
-              <th>Department</th>
-              <th>Class</th>
-            </tr>
-          </thead>
-          <tbody>${rows.join("")}</tbody>
-        </table>`;
+          <thead><tr><th>Category</th><th>Amount</th><th>Percentage</th></tr></thead>
+          <tbody>
+            <tr><td>Beachside</td><td>$${formatNumber(beachside)}</td><td>${formatNumber(beachside/total*100)}%</td></tr>
+            <tr><td>HK</td><td>$${formatNumber(hk)}</td><td>${formatNumber(hk/total*100)}%</td></tr>
+            <tr><td>Maint</td><td>$${formatNumber(maint)}</td><td>${formatNumber(maint/total*100)}%</td></tr>
+            <tr><td><strong>Total</strong></td><td colspan="2">$${formatNumber(total)}</td></tr>
+          </tbody>
+        </table>
+      `;
 
-      document.getElementById("dialpad-result").innerHTML = pivotTable + detailedTable;
+      document.getElementById('wex-result').innerHTML = resultHTML;
     }
 
     function calculateBKW() {
