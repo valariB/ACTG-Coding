@@ -7,28 +7,55 @@
     body {
       font-family: 'Segoe UI', sans-serif;
       background-color: #f4f7fa;
-      padding: 20px;
+      margin: 0;
+      padding: 40px;
       text-align: center;
     }
 
-    .menu {
-      margin-bottom: 20px;
+    .intro {
       display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      margin-top: 50px;
+    }
+
+    .intro img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(0,0,0,0.05);
+    }
+
+    .quote {
+      font-size: 26px;
+      font-weight: 600;
+      color: #222;
+    }
+
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
+      gap: 16px;
+      margin-top: 20px;
     }
 
     .menu button {
-      padding: 10px 16px;
+      padding: 10px 18px;
       background-color: #007acc;
       color: white;
+      font-size: 15px;
+      font-weight: 500;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: background-color 0.2s ease;
     }
 
-    .menu button.active {
-      background-color: #005b99;
+    .menu button:hover {
+      background-color: #005fa3;
     }
 
     .section {
@@ -41,26 +68,6 @@
       text-align: left;
       max-width: 1000px;
       margin: 0 auto;
-    }
-
-    .intro {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      margin-top: 50px;
-    }
-
-    .intro img {
-      width: 180px;
-      height: 180px;
-      margin-bottom: 20px;
-    }
-
-    .quote {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
     }
 
     label {
@@ -131,14 +138,12 @@
   </div>
 
   <div id="dialpad-embed" class="section">
-    <button class="calc" onclick="returnHome()" style="margin-bottom: 20px;">Return to Home</button>
     <iframe src="https://valarib.github.io/DIALPAD/DialPad.html" style="width:100%; height:800px; border:none;"></iframe>
   </div>
 
   <div id="bkw" class="section">
     <button class="calc" onclick="returnHome()" style="margin-bottom: 20px;">Return to Home</button>
     <h2>BKW Utility Allocation</h2>
-
     <table>
       <thead>
         <tr>
@@ -157,7 +162,6 @@
         <tr><td>Sewer</td><td>7902</td><td><input type="number" id="sewer" value="6000"></td><td>Laundry</td><td>BLDG 7</td></tr>
       </tbody>
     </table>
-
     <button class="calc" onclick="calculateBKW()">Calculate Utility Allocation</button>
     <div id="bkw-result"></div>
   </div>
@@ -235,6 +239,23 @@
         </table>`;
 
       document.getElementById("bkw-result").innerHTML = fullTable + summaryTable;
+    }
+
+    function calculateWex() {
+      const b = parseFloat(document.getElementById("gasBeachside").value) || 0;
+      const h = parseFloat(document.getElementById("gasHK").value) || 0;
+      const m = parseFloat(document.getElementById("gasMaint").value) || 0;
+      const total = b + h + m;
+
+      let result = `
+        <h3>Wex Gas Split Summary</h3>
+        <p><strong>Total:</strong> $${formatNumber(total)}</p>
+        <ul style="line-height: 1.8;">
+          <li>Beachside: $${formatNumber(b)}</li>
+          <li>HK: $${formatNumber(h)}</li>
+          <li>Maint: $${formatNumber(m)}</li>
+        </ul>`;
+      document.getElementById("wex-result").innerHTML = result;
     }
   </script>
 
