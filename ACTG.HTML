@@ -113,28 +113,13 @@
     <img src="Brightwild_Workable_1200x1200.png" alt="Brightwild Logo">
     <div class="quote">Dominate the day Accounting Team</div>
     <div class="menu" id="menuBar">
-      <button onclick="showSection('wex', this)">Wex</button>
+      <button onclick="window.open('https://valarib.github.io/Wex/Wex.html', '_self')">Wex</button>
       <button onclick="loadDialpad()">Dialpad</button>
       <button onclick="showSection('bkw', this)">BKW Utility</button>
       <button onclick="window.open('https://valarib.github.io/ACTG-GL-Reference-Tool/ACTG-GL.HTML', '_blank')">
         GL Reference Tool
       </button>
     </div>
-  </div>
-
-  <div id="wex" class="section">
-    <button class="calc" onclick="returnHome()" style="margin-bottom: 20px;">Return to Home</button>
-    <h2>Wex - Gas Allocation</h2>
-    <label for="daterange">Date Range:</label>
-    <input type="text" id="daterange" placeholder="MM/DD/YYYY - MM/DD/YYYY">
-    <label for="gasBeachside">Gas - Beachside:</label>
-    <input type="number" id="gasBeachside" value="1303.91">
-    <label for="gasHK">Gas - HK:</label>
-    <input type="number" id="gasHK" value="2073.58">
-    <label for="gasMaint">Gas - Maint:</label>
-    <input type="number" id="gasMaint" value="798.52">
-    <button class="calc" onclick="calculateWex()">Calculate Wex Allocation</button>
-    <div id="wex-result"></div>
   </div>
 
   <div id="dialpad-embed" class="section">
@@ -239,23 +224,6 @@
         </table>`;
 
       document.getElementById("bkw-result").innerHTML = fullTable + summaryTable;
-    }
-
-    function calculateWex() {
-      const b = parseFloat(document.getElementById("gasBeachside").value) || 0;
-      const h = parseFloat(document.getElementById("gasHK").value) || 0;
-      const m = parseFloat(document.getElementById("gasMaint").value) || 0;
-      const total = b + h + m;
-
-      let result = `
-        <h3>Wex Gas Split Summary</h3>
-        <p><strong>Total:</strong> $${formatNumber(total)}</p>
-        <ul style="line-height: 1.8;">
-          <li>Beachside: $${formatNumber(b)}</li>
-          <li>HK: $${formatNumber(h)}</li>
-          <li>Maint: $${formatNumber(m)}</li>
-        </ul>`;
-      document.getElementById("wex-result").innerHTML = result;
     }
   </script>
 
